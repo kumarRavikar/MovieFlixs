@@ -23,7 +23,7 @@ class Moviecard extends Component {
     // }
     
     render(){
-        const {movies, addStars, decStars, addFav, addsCart} = this.props
+        const {movies, addStars, decStars, addFav, addCart} = this.props
         const {title, gener, price, poster,rating, stars,fav, cart} = this.props.movies;
         console.log(this.props.movies)
         return(
@@ -50,7 +50,7 @@ class Moviecard extends Component {
                                  <button className={fav?"un-fav":"fav"} onClick={() => {addFav(movies)}}>
                                     {fav?"Remove from Favourite":"Add To Favourite"}</button>
                            
-                            <button className ={cart?"remove-cart":"cart"} onClick={() => {addsCart(movies)}}>
+                            <button className ={cart?"remove-cart":"cart"} onClick={() => {addCart(movies)}}>
                                 {cart?"Remove FromCart":"Add To Cart"}</button>
                         </div>
                     </div>
