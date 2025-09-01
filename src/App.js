@@ -39,18 +39,27 @@ class App extends Component  {
         })
     }
     handilCart =(movie)=>{
-        const {movies} = this.state
+        let {movies,cartCount} = this.state
         const mId = movies.indexOf(movie)
         movies[mId].cart = !movies[mId].cart
+        if(movies[mId].cart){
+          cartCount += 1;
+        }else{
+          cartCount -= 1;
+        }
         this.setState({
-            movies
+            movies,
+            cartCount
         })
+        console.log(cartCount)
     }
+  
   render(){
+    const {movies, cartCount} = this.state
     return (
    <>
-   <Navbar/>
-   <MovieList movies ={this.state.movies}
+   <Navbar cartCount={cartCount}/>
+   <MovieList movies ={movies}
               addStars ={this.handilIncStar}
               decStars ={this.handilDecStar}
               addFav={this.handileFev}

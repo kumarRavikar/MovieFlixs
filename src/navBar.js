@@ -1,8 +1,7 @@
-import  { Component } from "react"
-//import styled from "styled-components";
+
 import styles from "./navBar.module.css"
-class Navbar extends Component{
-    render(){
+function Navbar(props){
+        const {cartCount} = props
         return(
            <div className={styles.nav}>
             <div className={styles.title}> <h1>MovieFliex</h1></div>
@@ -13,10 +12,10 @@ class Navbar extends Component{
             <div className={styles.cartLogo}>
                 <img src="https://cdn-icons-png.flaticon.com/128/4290/4290854.png" alt="Cart Logo" className={styles.image}
                 />
-                <span show={true} className={styles.cartCount}>3</span>
+                <span show={true} className={styles.cartCount}>{cartCount}</span>
             </div>
            </div>
         )
     }
-}
+
 export default Navbar;

@@ -1,11 +1,9 @@
-import { Component } from "react";
+
 import Moviecard from "./MovieCard";
 
-class MovieList extends Component {  
-    render(){
+function MovieList(props) {  
         //const {title,gener,price,poster,rating,stars,fav,cart} = this.state.movies;
-        const {movies, addStars ,decStars,addFav, addCart}=this.props;
-        console.log(this.props)
+        const {movies, addStars ,decStars,addFav, addCart}= props;
         return(
           <>
           {movies.map((movie) => (
@@ -22,5 +20,5 @@ class MovieList extends Component {
           </>
         ) 
     }
-}
+
 export default MovieList ;

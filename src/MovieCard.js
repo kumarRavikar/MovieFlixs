@@ -1,31 +1,7 @@
-import { Component } from "react";
-class Moviecard extends Component {
-   
-  
-    
-    // remveStar=()=>{
-    //     if(this.state.stars <= 0){
-    //         return;
-    //     }
-    //     this.setState({
-    //         stars: this.state.stars - 0.5
-    //     })
-    // }
-    // handilFav =() =>{
-    //     this.setState({
-    //         fav: !this.state.fav
-    //     })
-    // }
-    // handilCart=()=>{
-    //     this.setState({
-    //         cart:!this.state.cart
-    //     })
-    // }
-    
-    render(){
-        const {movies, addStars, decStars, addFav, addCart} = this.props
-        const {title, gener, price, poster,rating, stars,fav, cart} = this.props.movies;
-        console.log(this.props.movies)
+
+function Moviecard(props) { 
+        const {movies, addStars, decStars, addFav, addCart} = props
+        const {title, gener, price, poster,rating, stars,fav, cart} = props.movies;
         return(
             <div className="main">
                 <div className="movie-card">
@@ -57,6 +33,5 @@ class Moviecard extends Component {
                 </div>
             </div>
         ) 
-    }
-} 
+    } 
 export default Moviecard;
