@@ -1,10 +1,12 @@
 
+import { Outlet } from "react-router-dom";
 import styles from "./navBar.module.css"
 function Navbar(props){
         const {cartCount, onSearch} = props
         
 
         return(
+            <>
            <div className={styles.nav}>
             <div className={styles.title}> <h1>MovieFliex</h1></div>
             <span>
@@ -17,6 +19,8 @@ function Navbar(props){
                 <span show={true} className={styles.cartCount}>{cartCount}</span>
             </div>
            </div>
+           <Outlet/>
+           </>
         )
     }
 
