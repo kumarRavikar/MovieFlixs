@@ -79,52 +79,51 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const App = () => {
 
-  const [movies, setMovies] = useState(moviesData);
-  const [cartCount, setCartCount] = useState(0);
-  const [search, setSearch] = useState("");
-  //  Increase stars
-  const handleIncStar = (movie) => {
-    const updated = movies.map((m) =>
-      m === movie && m.stars < 5 ? { ...m, stars: m.stars + 0.5 } : m
-    );
-    setMovies(updated);
-  };
+  // const [movies, setMovies] = useState(moviesData);
+  // const [cartCount, setCartCount] = useState(0);
+  // const [search, setSearch] = useState("");
+  // //  Increase stars
+  // const handleIncStar = (movie) => {
+  //   const updated = movies.map((m) =>
+  //     m === movie && m.stars < 5 ? { ...m, stars: m.stars + 0.5 } : m
+  //   );
+  //   setMovies(updated);
+  // };
 
-  //  Decrease stars
-  const handleDecStar = (movie) => {
-    const updated = movies.map((m) =>
-      m === movie && m.stars > 0 ? { ...m, stars: m.stars - 0.5 } : m
-    );
-    setMovies(updated);
-  };
+  // //  Decrease stars
+  // const handleDecStar = (movie) => {
+  //   const updated = movies.map((m) =>
+  //     m === movie && m.stars > 0 ? { ...m, stars: m.stars - 0.5 } : m
+  //   );
+  //   setMovies(updated);
+  // };
 
-  //Toggle Favourite
-  const handleFav = (movie) => {
-    const updated = movies.map((m) =>
-      m === movie ? { ...m, fav: !m.fav } : m
-    );
-    setMovies(updated);
-  };
+  // //Toggle Favourite
+  // const handleFav = (movie) => {
+  //   const updated = movies.map((m) =>
+  //     m === movie ? { ...m, fav: !m.fav } : m
+  //   );
+  //   setMovies(updated);
+  // };
 
-  // 🛒 Add/Remove Cart
-  const handleCart = (movie) => {
-    const updated = movies.map((m) =>
-      m === movie ? { ...m, cart: !m.cart } : m
-    );
+  // // 🛒 Add/Remove Cart
+  // const handleCart = (movie) => {
+  //   const updated = movies.map((m) =>
+  //     m === movie ? { ...m, cart: !m.cart } : m
+  //   );
 
-    // Update cart count
-    const newCartCount = updated.filter((m) => m.cart).length;
+  //   // Update cart count
+  //   const newCartCount = updated.filter((m) => m.cart).length;
 
-    setMovies(updated);
-    setCartCount(newCartCount);
-  };
-   // search Functionality
-    const filterred = movies.filter((m)=>m.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  //   setMovies(updated);
+  //   setCartCount(newCartCount);
+  // };
+  //  // search Functionality
+  //   const filterred = movies.filter((m)=>m.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
     // Addinf react router DOM
      const router = createBrowserRouter([
-          {path:"/", element:<Navbar cartCount={cartCount} onSearch ={(text)=>setSearch(text) }/>, children:[
-            {index:true, element:<MovieList movies={filterred} addStars={handleIncStar} decStars={handleDecStar}addFav={handleFav}
-        addCart={handleCart}/>}
+          {path:"/", element:<Navbar/>, children:[
+            {index:true, element:<MovieList/>}
           ]}
      ])
      return <RouterProvider router={router}/>
