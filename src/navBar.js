@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 import styles from "./navBar.module.css"
 import { useDispatch , useSelector} from "react-redux";
 import { selectCartCount, movieAction } from "./redux/MovieSlice";
-
+import {useNavigate} from "react-router-dom";
 function Navbar(){
-        
+        const navigate = useNavigate()
         const dispatch = useDispatch();
         const cartCount = useSelector(selectCartCount)
         console.log(cartCount)
@@ -18,9 +18,12 @@ function Navbar(){
             {/* <button className={styles.searchButton} onClick={handileSearch}>search</button> */}
             </span>
             <div className={styles.cartLogo}>
-                <img src="https://cdn-icons-png.flaticon.com/128/4290/4290854.png" alt="Cart Logo" className={styles.image}
+              <button onClick={()=>navigate("/cartItems")}>  
+                <img src="https://cdn-icons-png.flaticon.com/128/4290/4290854.png" alt="Cart Logo" className={styles.image} 
+                 
                 />
-                <span show={true} className={styles.cartCount}>{cartCount}</span>
+                <span  className={styles.cartCount}>{cartCount}</span>
+                </button>
             </div>
            </div>
            <Outlet/>

@@ -71,11 +71,10 @@
 // }
 
 // export default App;
-import { useEffect, useState } from "react";
 import MovieList from "./MovieList";
 import Navbar from "./navBar";
-import { movies as moviesData } from "./moviesData";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { CartItems } from "./CartItems";
 
 const App = () => {
 
@@ -120,20 +119,15 @@ const App = () => {
   // };
   //  // search Functionality
   //   const filterred = movies.filter((m)=>m.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
-    // Addinf react router DOM
+  //-------------------------------------------------------------------------------------------------------------- 
+  // Addinf react router DOM
      const router = createBrowserRouter([
           {path:"/", element:<Navbar/>, children:[
             {index:true, element:<MovieList/>}
-          ]}
+          ]},
+          {path:"/cartItems", element:<CartItems/>}
      ])
      return <RouterProvider router={router}/>
-  // return (
-  //   <>
-     
-      
-      
-  //   </>
-  // );
 };
 
 export default App;
