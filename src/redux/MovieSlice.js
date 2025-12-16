@@ -1,10 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { movies } from "../moviesData";
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchMoviesFromFirestore } from "../Database/MovieServices";
+//import { movies } from "../moviesData";
 const initialState = {
-   movies, //All Movies data
-   filterMovies:movies, //filtering movies
-   CartCount:0        //add to cart count
+   movies:[], //All Movies data
+   filterMovies:[], //filtering movies
+   CartCount:0,    //add to cart count
+  loading: false,
+  error: null       
 }
+  export const fetchMovies = createAsyncThunk(
+  "movies/fetchMovies",
+  async () => {
+    return await fetchMoviesFromFirestore();
+  }
+);
 const movieSlice = createSlice({
     name:"movies",
     initialState,
@@ -47,15 +56,34 @@ const movieSlice = createSlice({
          },
         //Remove from cart functionality
         removeFromCart:(state,action)=>{
-            if(state.CartCount > 0){
+            const movie = state.movies.find(m=>m.id === action.payload);
+            if (movie && movie.cart) {
+                movie.cart = false;
                 state.CartCount -= 1;
-            }
+             }
+             state.filterMovies = [...state.movies];
+
         },
-        
-    }
+       
+    },
+    extraReducers:(builder) => {
+    builder
+      .addCase(fetchMovies.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMovies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.movies = action.payload;
+        state.filterMovies = action.payload;
+      })
+      .addCase(fetchMovies.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  }
 });
 export const movieReducers = movieSlice.reducer;
 export const movieAction = movieSlice.actions;
 export const selectCartCount = (state)=>state.movies.CartCount;
 export const filterMovies = (state)=>state.movies.filterMovies;
-export const selectCartItems = (state)=>state.movies.movies.filter(movie=>movie.cart == true);
+export const selectCartItems = (state)=>state.movies.movies.filter(movie=>movie.cart === true);
