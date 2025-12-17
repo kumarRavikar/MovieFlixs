@@ -75,7 +75,9 @@ import MovieList from "./MovieList";
 import Navbar from "./navBar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CartItems } from "./CartItems";
-
+import {SignUpPage} from "./SignUpPage.js"
+import LoginPage from "./LoginPage.js"
+import ProtectedRoute from "./redux/ProtectRout.js";
 const App = () => {
 
   // const [movies, setMovies] = useState(moviesData);
@@ -122,10 +124,12 @@ const App = () => {
   //-------------------------------------------------------------------------------------------------------------- 
   // Addinf react router DOM
      const router = createBrowserRouter([
-          {path:"/", element:<Navbar/>, children:[
+           {path:"/", element:<SignUpPage/>},
+           {path:"/login",element:<LoginPage/>},
+          {path:"/movie", element:(<ProtectedRoute> <Navbar/> </ProtectedRoute> ), children:[
             {index:true, element:<MovieList/>}
           ]},
-          {path:"/cartItems", element:<CartItems/>}
+          {path:"/cartItems", element:(<ProtectedRoute> <CartItems/> </ProtectedRoute> )}
      ])
      return <RouterProvider router={router}/>
 };

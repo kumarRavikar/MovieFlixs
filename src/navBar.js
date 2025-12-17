@@ -4,11 +4,15 @@ import styles from "./navBar.module.css"
 import { useDispatch , useSelector} from "react-redux";
 import { selectCartCount, movieAction } from "./redux/MovieSlice";
 import {useNavigate} from "react-router-dom";
+import { logOutUser } from "./redux/AuthSlice";
 function Navbar(){
         const navigate = useNavigate()
         const dispatch = useDispatch();
         const cartCount = useSelector(selectCartCount)
-        console.log(cartCount)
+       const handleLogout = async()=>{
+          await dispatch(logOutUser());
+          navigate("/login")
+       }
         return(
             <>
            <div className={styles.nav}>
@@ -19,12 +23,11 @@ function Navbar(){
             </span>
             <div className={styles.cartLogo}>
               <button onClick={()=>navigate("/cartItems")}>  
-                <img src="https://cdn-icons-png.flaticon.com/128/4290/4290854.png" alt="Cart Logo" className={styles.image} 
-                 
-                />
+                <img src="https://cdn-icons-png.flaticon.com/128/4290/4290854.png" alt="Cart Logo" className={styles.image}/>
                 <span  className={styles.cartCount}>{cartCount}</span>
                 </button>
             </div>
+             <button onClick={handleLogout} >LogOut</button>
            </div>
            <Outlet/>
            </>
