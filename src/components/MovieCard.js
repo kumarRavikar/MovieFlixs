@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { movieAction } from "./redux/MovieSlice";
+import { movieAction } from "../redux/MovieSlice";
 function Moviecard({movie}) { 
         // const {movies, addStars, decStars, addFav} = props
         const {id,title, gener, price, poster,rating, stars,fav, cart} = movie;

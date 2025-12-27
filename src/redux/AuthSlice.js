@@ -50,7 +50,7 @@ export const listenToAuthChanges = () => (dispatch) => {
   });
 };
 const initialState={
-    user:null,
+    user:undefined,
     loading:false,
     error:null
 }

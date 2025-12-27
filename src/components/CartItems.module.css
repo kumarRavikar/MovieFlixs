@@ -136,3 +136,8 @@
   50% { filter: drop-s
   }
 }
+.btn{
+  background-color: #a9a1a1;
+  color: #111;
+  border-width: 20px;
+}

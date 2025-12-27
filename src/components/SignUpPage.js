@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 //import { authReducer } from "./redux/AuthSlice";
-import { signupUser } from "./redux/AuthSlice";
+import { signupUser } from "../redux/AuthSlice";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 

@@ -71,13 +71,17 @@
 // }
 
 // export default App;
-import MovieList from "./MovieList";
-import Navbar from "./navBar";
+import MovieList from "./components/MovieList.js";
+import Navbar from "./components/navBar.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { CartItems } from "./CartItems";
-import {SignUpPage} from "./SignUpPage.js"
-import LoginPage from "./LoginPage.js"
+import { CartItems } from "../src/components/CartItems.js";
+import {SignUpPage} from "./components/SignUpPage.js"
+import LoginPage from "./components/LoginPage.js"
 import ProtectedRoute from "./redux/ProtectRout.js";
+
+
+
+
 const App = () => {
 
   // const [movies, setMovies] = useState(moviesData);
@@ -123,13 +127,14 @@ const App = () => {
   //   const filterred = movies.filter((m)=>m.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
   //-------------------------------------------------------------------------------------------------------------- 
   // Addinf react router DOM
+  
      const router = createBrowserRouter([
            {path:"/", element:<SignUpPage/>},
            {path:"/login",element:<LoginPage/>},
-          {path:"/movie", element:(<ProtectedRoute> <Navbar/> </ProtectedRoute> ), children:[
-            {index:true, element:<MovieList/>}
+          {path:"/movie", element:(<ProtectedRoute><Navbar/> </ProtectedRoute>  ), children:[
+            {index:true, element:(<ProtectedRoute><MovieList/></ProtectedRoute>)}
           ]},
-          {path:"/cartItems", element:(<ProtectedRoute> <CartItems/> </ProtectedRoute> )}
+          {path:"/cartItems", element:(<ProtectedRoute><CartItems/></ProtectedRoute>   )}
      ])
      return <RouterProvider router={router}/>
 };

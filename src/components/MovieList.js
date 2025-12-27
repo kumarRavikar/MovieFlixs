@@ -1,7 +1,7 @@
 
 import {useDispatch,  useSelector } from "react-redux";
 import Moviecard from "./MovieCard";
-import { fetchMovies, filterMovies } from "./redux/MovieSlice";
+import { fetchMovies, filterMovies } from "../redux/MovieSlice";
 import { useEffect } from "react";
  
 function MovieList() {  

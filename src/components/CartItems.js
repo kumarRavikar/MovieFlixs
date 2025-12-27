@@ -1,17 +1,25 @@
 import { useDispatch, useSelector } from "react-redux"
-import { movieAction, selectCartItems } from "./redux/MovieSlice"
-import styles from "../src/CartItems.module.css"
+import { movieAction, selectCartItems } from "../redux/MovieSlice"
+import { useNavigate } from "react-router-dom"
+import styles from "./CartItems.module.css"
  export const CartItems =()=>{
      const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
+    const navigate = useNavigate();
     if(cartItems.length === 0){
-        return <h1 className={styles.empty}>🛒 Cart is Empty</h1>;
+        return (
+          <>
+          <h1 className={styles.empty}>🛒 Cart is Empty </h1>
+          <button onClick={()=>navigate("/movie")}>Goto Home</button>
+          </>
+        
+      );
     }
   return(
     <>
      <div className={styles.cartContainer}>
       <h2 className={styles.heading}>My Cart</h2>
-
+     
       {cartItems.map(movie => (
         <div className={styles.cartCard} key={movie.id}>
           <img
@@ -35,6 +43,7 @@ import styles from "../src/CartItems.module.css"
           </button>
         </div>
       ))}
+        <button onClick={()=>navigate("/movie")} className={styles.btn} >Goto Home</button>
     </div>
   
     </>

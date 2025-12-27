@@ -2,9 +2,9 @@
 import { Outlet } from "react-router-dom";
 import styles from "./navBar.module.css"
 import { useDispatch , useSelector} from "react-redux";
-import { selectCartCount, movieAction } from "./redux/MovieSlice";
+import { selectCartCount, movieAction } from "../redux/MovieSlice";
 import {useNavigate} from "react-router-dom";
-import { logOutUser } from "./redux/AuthSlice";
+import { logOutUser } from "../redux/AuthSlice";
 function Navbar(){
         const navigate = useNavigate()
         const dispatch = useDispatch();
