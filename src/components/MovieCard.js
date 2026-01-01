@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { movieAction } from "../redux/MovieSlice";
+import { Link } from "react-router-dom";
 function Moviecard({movie}) { 
         // const {movies, addStars, decStars, addFav} = props
         const {id,title, gener, price, poster,rating, stars,fav, cart} = movie;
@@ -11,9 +12,11 @@ function Moviecard({movie}) {
                         <img src= {poster} alt="Poster"/>
                     </div>
                     <div className="right">
+                       <Link to={`/movie/${id}`}   style={{ textDecoration: "none", color: "inherit" }}>
                         <div className="title">{title}</div>
                         <div className="gener">{gener}</div>
                         <div className="price">Rs.{price}</div>
+                        </Link>
                         <div className="footer">
                             <div className="rating">{rating}</div>
                             <div className="stars"> 

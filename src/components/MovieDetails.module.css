@@ -1,0 +1,208 @@
+/* PAGE WRAPPER */
+.mainWrapper{
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg,#0f172a,#1f2937,#020617);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn .6s ease-in-out;
+}
+
+/* CARD */
+.cardBox{
+  width: 900px;
+  background: linear-gradient(145deg,#0b1220,#111827);
+  color: #fff;
+  display: flex;
+  gap: 28px;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0,0,0,.6);
+  transform: scale(.9);
+  opacity: 0;
+  animation: popCard .7s ease forwards;
+}
+
+/* LEFT POSTER */
+.leftBox{
+  flex: 1;
+}
+
+.posterImg{
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 15px 40px rgba(0,0,0,.9);
+  transition: .4s ease;
+}
+
+.posterImg:hover{
+  transform: scale(1.05);
+  box-shadow: 0 25px 55px rgba(0,0,0,1);
+}
+
+/* RIGHT CONTENT */
+.rightBox{
+  flex: 2;
+  animation: slideRight .6s ease;
+}
+
+.movieTitle{
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.genreText{
+  color: #d1d5db;
+  font-size: 15px;
+}
+
+.priceText{
+  margin-top: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  background: linear-gradient(90deg,#22c55e,#4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* FOOTER */
+.footerBox{
+  margin-top: 16px;
+}
+
+.ratingBox{
+  font-size: 18px;
+  color: #fde047;
+  font-weight: bold;
+}
+
+/* STARS SECTION */
+.starsBox{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.starBtn{
+  width: 30px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.starBtn:hover{
+  transform: scale(1.25);
+}
+
+.starIcon{
+  width: 32px;
+}
+
+.starValue{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* BUTTONS */
+.favBtn,
+.unFavBtn,
+.cartBtn,
+.removeCartBtn{
+  margin-top: 12px;
+  width: 220px;
+  padding: 9px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .5px;
+  font-weight: 700;
+  transition: .3s ease;
+}
+
+/* Favourite Buttons */
+.favBtn{
+  background: linear-gradient(90deg,#22c55e,#16a34a);
+  color: #000;
+}
+
+.favBtn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(34,197,94,.5);
+}
+
+.unFavBtn{
+  background: linear-gradient(90deg,#ef4444,#dc2626);
+  color: #fff;
+}
+
+.unFavBtn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(239,68,68,.5);
+}
+
+/* Cart Buttons */
+.cartBtn{
+  background: linear-gradient(90deg,#2563eb,#1d4ed8);
+  color: #fff;
+}
+
+.cartBtn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37,99,235,.5);
+}
+
+.removeCartBtn{
+  background: linear-gradient(90deg,#f59e0b,#d97706);
+  color: #000;
+}
+
+.removeCartBtn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(245,158,11,.5);
+}
+
+/* NOT FOUND */
+.notFound{
+  text-align: center;
+  margin-top: 120px;
+  color: white;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes popCard{
+  to{
+    transform: scale(1);
+    opacity:1;
+  }
+}
+
+@keyframes slideRight{
+  from{
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to{
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .cardBox{
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .posterImg{
+    height: 350px;
+  }
+}

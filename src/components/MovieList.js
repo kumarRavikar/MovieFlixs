@@ -3,6 +3,7 @@ import {useDispatch,  useSelector } from "react-redux";
 import Moviecard from "./MovieCard";
 import { fetchMovies, filterMovies } from "../redux/MovieSlice";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
  
 function MovieList() {  
         //const {title,gener,price,poster,rating,stars,fav,cart} = this.state.movies;
@@ -15,15 +16,18 @@ function MovieList() {
 
   if (loading) return <h2>Loading Movies...</h2>;
         return(
-          <>
-          {movies.map((movie) => (
-        <Moviecard
+          <div>
+
+              {movies.map((movie) => (
+                <Link  style={{ textDecoration: "none", color: "inherit" }}>
+             <Moviecard
         movie={movie}
         key={movie.id}
       />
+      </Link>
     ))}
-          
-          </>
+          </div>
+                 
         ) 
     }
 
