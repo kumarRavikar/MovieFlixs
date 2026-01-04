@@ -32,6 +32,7 @@ const movieSlice = createSlice({
         }
         state.filterMovies = [...state.movies];
         },
+        //remove stars
         decStars:(state,action)=>{
            const movie = state.movies.find((m)=>m.id === action.payload);
            if(movie && movie.stars > 0){
@@ -39,13 +40,16 @@ const movieSlice = createSlice({
            }
            state.filterMovies = [...state.movies];
         },
+        // add to fav
         toggleFav:(state,action)=>{
          const movie = state.movies.find((m)=>m.id === action.payload);
          if(movie){
             movie.fav = !movie.fav;
+            
          }
          state.filterMovies = [...state.movies];
         },
+        //add to card
          toggleCart:(state,action)=>{
             const movie = state.movies.find((m)=>m.id === action.payload);
             if(movie){
@@ -66,6 +70,7 @@ const movieSlice = createSlice({
         },
        
     },
+    //handling promise in extraReducer
     extraReducers:(builder) => {
     builder
       .addCase(fetchMovies.pending, (state) => {
@@ -87,3 +92,6 @@ export const movieAction = movieSlice.actions;
 export const selectCartCount = (state)=>state.movies.CartCount;
 export const filterMovies = (state)=>state.movies.filterMovies;
 export const selectCartItems = (state)=>state.movies.movies.filter(movie=>movie.cart === true);
+//implemented a total price in cart 
+export const selectCartTotalPrice = (state)=>state.movies.movies.filter(movie=>movie.cart === true).reduce((total,movie)=>total + movie.price,0);
+                                         

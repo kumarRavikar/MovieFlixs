@@ -3,24 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import { filterMovies } from '../redux/MovieSlice';
 import { movieAction } from '../redux/MovieSlice';
+import { Link } from 'react-router-dom';
 import styles from "./MovieDetails.module.css"
 export const MovieDetails = () => {
     const navigate = useNavigate();
     const {id} = useParams();
     const movie = useSelector(filterMovies);
     const movies = movie.find(m=> m.id === id);
-     const {title, gener, price, poster,rating, stars,fav, cart} = movies;
+     const {title, gener, price, trailer,rating, stars,fav, cart} = movies;
      const dispatch = useDispatch();
-    if(!movies){
-        return(<h1 className={styles.notFound}>Movies Not Found</h1>)
-    } 
- 
+    
         return(
            <div className={styles.mainWrapper}>
+            
       <div className={styles.cardBox}>
-
+         <Link to='/movie' style={{textDecoration:'none' , color:'white'}}>Go Back</Link>
         <div className={styles.leftBox}>
-          <img className={styles.posterImg} src={poster} alt="Poster" />
+          {/* <img className={styles.posterImg} src={poster} alt="Poster" /> */}
+          <iframe className={styles.posterImg} src={trailer} title={`${title}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" >
+          </iframe>
         </div>
 
         <div className={styles.rightBox}>
@@ -73,7 +75,9 @@ export const MovieDetails = () => {
 
           </div>
         </div>
+       
       </div>
+      
     </div>
         ) 
 }

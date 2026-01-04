@@ -3,6 +3,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { auth } from "../Database/FireBaseConfig";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+const mapUser=(user)=>{
+  if(!user) return null;
+  return{
+    uid:user.uid,
+    email:user.email,
+    displayName:user.displayName,
+    photoURL:user.photoURl
+  }
+}
 //signUp user
 export const signupUser= createAsyncThunk(
     "auth/signupUser",
@@ -12,7 +21,7 @@ export const signupUser= createAsyncThunk(
             email,
             password
         );
-        return userCredential.user;
+        return mapUser(userCredential.user);
     }
 );
 //for logIn user
@@ -24,7 +33,7 @@ export const loginUser=createAsyncThunk(
             email,
             password
         );
-        return userData.user;
+        return mapUser(userData.user);
     }
 );
 //for logOut user
@@ -36,22 +45,12 @@ export const logOutUser=createAsyncThunk(
 )
 export const listenToAuthChanges = () => (dispatch) => {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      dispatch({
-        type: "auth/setUser",
-        payload: user
-      });
-    } else {
-      dispatch({
-        type: "auth/setUser",
-        payload: null
-      });
-    }
+    dispatch(authSlice.actions.setUser(mapUser(user)))
   });
 };
 const initialState={
-    user:undefined,
-    loading:false,
+    user:null,
+    loading:true,
     error:null
 }
 
@@ -61,6 +60,7 @@ const authSlice = createSlice({
     reducers:{
       setUser:(state,action)=>{
         state.user = action.payload;
+        state.loading = false;
       }
     },
     extraReducers:(bulder)=>{
@@ -88,6 +88,7 @@ const authSlice = createSlice({
        })
        .addCase(logOutUser.fulfilled,(state,action)=>{
         state.user = null;
+        state.loading = false;
        })
     }
 })

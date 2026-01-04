@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
-import { movieAction, selectCartItems } from "../redux/MovieSlice"
+import { movieAction, selectCartItems, selectCartTotalPrice } from "../redux/MovieSlice"
 import { useNavigate } from "react-router-dom"
 import styles from "./CartItems.module.css"
  export const CartItems =()=>{
+   
      const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
+    const totalPrice = useSelector(selectCartTotalPrice);
     const navigate = useNavigate();
     if(cartItems.length === 0){
         return (
@@ -44,6 +46,7 @@ import styles from "./CartItems.module.css"
         </div>
       ))}
         <button onClick={()=>navigate("/movie")} className={styles.btn} >Goto Home</button>
+        <p>Total : {totalPrice}</p>
     </div>
   
     </>
