@@ -1,10 +1,10 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import { fetchMoviesFromFirestore } from "../Database/MovieServices";
+//import { queries } from "@testing-library/dom";
 //import { movies } from "../moviesData";
 const initialState = {
    movies:[], //All Movies data
-   filterMovies:[], //filtering movies
-   CartCount:0,    //add to cart count
+   searchQuery:"", //filtering movies
   loading: false,
   error: null       
 }
@@ -20,8 +20,7 @@ const movieSlice = createSlice({
     reducers:{
         //filter or search movies functionality
         searchMovies:(state,action)=>{
-            const query = action.payload.toLowerCase();
-            state.filterMovies=state.movies.filter(movie=>movie.title.toLowerCase().includes(query));
+            state.searchQuery = action.payload.toLowerCase();
         },
         
         //Adding stars 
@@ -30,7 +29,6 @@ const movieSlice = createSlice({
         if(movie && movie.stars < 5){
             movie.stars += 0.5;
         }
-        state.filterMovies = [...state.movies];
         },
         //remove stars
         decStars:(state,action)=>{
@@ -38,7 +36,7 @@ const movieSlice = createSlice({
            if(movie && movie.stars > 0){
               movie.stars -= 0.5;
            }
-           state.filterMovies = [...state.movies];
+           
         },
         // add to fav
         toggleFav:(state,action)=>{
@@ -47,25 +45,23 @@ const movieSlice = createSlice({
             movie.fav = !movie.fav;
             
          }
-         state.filterMovies = [...state.movies];
         },
         //add to card
          toggleCart:(state,action)=>{
             const movie = state.movies.find((m)=>m.id === action.payload);
             if(movie){
                 movie.cart = !movie.cart;
-                state.CartCount += movie.cart ? 1 : -1;
+                
             }
-            state.filterMovies = [...state.movies];
+           
          },
         //Remove from cart functionality
         removeFromCart:(state,action)=>{
             const movie = state.movies.find(m=>m.id === action.payload);
             if (movie && movie.cart) {
                 movie.cart = false;
-                state.CartCount -= 1;
+               
              }
-             state.filterMovies = [...state.movies];
 
         },
        
@@ -79,7 +75,6 @@ const movieSlice = createSlice({
       .addCase(fetchMovies.fulfilled, (state, action) => {
         state.loading = false;
         state.movies = action.payload;
-        state.filterMovies = action.payload;
       })
       .addCase(fetchMovies.rejected, (state, action) => {
         state.loading = false;
@@ -89,9 +84,22 @@ const movieSlice = createSlice({
 });
 export const movieReducers = movieSlice.reducer;
 export const movieAction = movieSlice.actions;
-export const selectCartCount = (state)=>state.movies.CartCount;
-export const filterMovies = (state)=>state.movies.filterMovies;
-export const selectCartItems = (state)=>state.movies.movies.filter(movie=>movie.cart === true);
-//implemented a total price in cart 
-export const selectCartTotalPrice = (state)=>state.movies.movies.filter(movie=>movie.cart === true).reduce((total,movie)=>total + movie.price,0);
+const selectMovies = state=>state.movies.movies; //selecting all movies 
+const selectQuery = state=>state.movies.searchQuery;//selection querty for search
+export const filterMovies = createSelector([selectMovies, selectQuery],(movies,query)=>{
+  if(!query){
+    return movies
+    };
+  return movies.filter(movie=>movie.title.toLowerCase().includes(query));
+})
+export const selectCartItems = createSelector([selectMovies],(movies)=>movies.filter(m=>m.cart));
+export const selectCartTotalPrice = createSelector([selectCartItems],(movies)=>movies.reduce((total,movie)=>total+movie.price,0));
+export const selectCartCount = createSelector([selectCartItems],(cart)=>cart.length);
+export const selectLoading = (state)=>state.movies.loading;
+export const selectError = (state)=>state.movies.error;
+// export const selectCartCount = (state)=>state.movies.CartCount;
+// export const filterMovies = (state)=>state.movies.filterMovies;
+// export const selectCartItems = (state)=>state.movies.movies.filter(movie=>movie.cart === true);
+// //implemented a total price in cart 
+// export const selectCartTotalPrice = (state)=>state.movies.movies.filter(movie=>movie.cart === true).reduce((total,movie)=>total + movie.price,0);
                                          

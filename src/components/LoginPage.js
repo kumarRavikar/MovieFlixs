@@ -10,10 +10,11 @@ const LoginPage =()=>{
  const [password, setPassword] = useState("");
  const navigate = useNavigate();
  const dispath = useDispatch();
- const {loading, error} = useSelector((state)=>state.auth);
+ const {loading} = useSelector((state)=>state.auth);
  const handilLogin =(e)=>{
     e.preventDefault();
-    dispath(loginUser({email,password})).unwrap().then(()=>navigate("/movie"));
+    dispath(loginUser({email,password})).unwrap().then(()=>navigate("/movie"))
+    .catch((err)=>alert("oop's user does not match"));
  }
  return(
     
@@ -39,8 +40,6 @@ const LoginPage =()=>{
   <button className={styles.button} disabled={loading}>
     {loading ? "Logging in..." : "Log In"}
   </button>
-
-  {error && <p className={styles.error}>{String(error.message)}</p>}
   <p  className={styles.text} > Go to <Link to="/" className={styles.link}>SignUp page</Link></p>
 </form>
  )

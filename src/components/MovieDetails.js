@@ -5,6 +5,7 @@ import { filterMovies } from '../redux/MovieSlice';
 import { movieAction } from '../redux/MovieSlice';
 import { Link } from 'react-router-dom';
 import styles from "./MovieDetails.module.css"
+import { useCallback } from 'react';
 export const MovieDetails = () => {
     const navigate = useNavigate();
     const {id} = useParams();
@@ -12,7 +13,18 @@ export const MovieDetails = () => {
     const movies = movie.find(m=> m.id === id);
      const {title, gener, price, trailer,rating, stars,fav, cart} = movies;
      const dispatch = useDispatch();
-    
+    const decStarsHandler = useCallback(()=>{
+      dispatch(movieAction.decStars(id));
+    },[dispatch, id]);
+    const incStarsHandler = useCallback(()=>{
+      dispatch(movieAction.incStars(id));
+    },[dispatch,id]);
+    const toggleFevHandler = useCallback(()=>{
+      dispatch(movieAction.toggleFav(id));
+    },[dispatch,id]);
+    const toggleCartHandler = useCallback(()=>{
+      dispatch(movieAction.toggleCart(id));
+    },[dispatch, id]);
         return(
            <div className={styles.mainWrapper}>
             
@@ -39,7 +51,7 @@ export const MovieDetails = () => {
                 className={styles.starBtn}
                 alt="decrease"
                 src="https://cdn-icons-png.flaticon.com/128/225/225148.png"
-                onClick={() => dispatch(movieAction.decStars(id))}
+                onClick={() => decStarsHandler(id)}
               />
 
               <img
@@ -52,7 +64,7 @@ export const MovieDetails = () => {
                 className={styles.starBtn}
                 alt="increase"
                 src="https://cdn-icons-png.flaticon.com/128/225/225149.png"
-                onClick={() => dispatch(movieAction.incStars(id))}
+                onClick={() => incStarsHandler(id)}
               />
 
               <span className={styles.starValue}>{stars}</span>
@@ -60,14 +72,14 @@ export const MovieDetails = () => {
 
             <button
               className={fav ? styles.unFavBtn : styles.favBtn}
-              onClick={() => dispatch(movieAction.toggleFav(id))}
+              onClick={() => toggleFevHandler(id)}
             >
               {fav ? "Remove Favourite" : "Add Favourite"}
             </button>
 
             <button
               className={cart ? styles.removeCartBtn : styles.cartBtn}
-              onClick={() => {dispatch(movieAction.toggleCart(id));navigate("/cartItems")}}
+              onClick={() => {toggleCartHandler(id);navigate("/cartItems")}}
               
             >
               {cart ? "Remove From Cart" : "Add To Cart"}

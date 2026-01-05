@@ -13,6 +13,7 @@ import styles from "./SignUp.module.css";
   const handleSubmit =(e)=>{
      e.preventDefault();
      dispath(signupUser({email,password})).unwrap().then(()=>navigate("/movie"))
+     .catch(()=>alert(" Opp's... User Crediantial Wrong"))
       
   }
   return(
