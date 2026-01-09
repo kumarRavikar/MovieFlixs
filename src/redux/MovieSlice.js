@@ -22,22 +22,6 @@ const movieSlice = createSlice({
         searchMovies:(state,action)=>{
             state.searchQuery = action.payload.toLowerCase();
         },
-        
-        //Adding stars 
-        incStars:(state,action)=>{
-        const movie = state.movies.find((m)=>m.id === action.payload);
-        if(movie && movie.stars < 5){
-            movie.stars += 0.5;
-        }
-        },
-        //remove stars
-        decStars:(state,action)=>{
-           const movie = state.movies.find((m)=>m.id === action.payload);
-           if(movie && movie.stars > 0){
-              movie.stars -= 0.5;
-           }
-           
-        },
         // add to fav
         toggleFav:(state,action)=>{
          const movie = state.movies.find((m)=>m.id === action.payload);
