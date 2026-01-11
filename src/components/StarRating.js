@@ -12,7 +12,7 @@ const StarRating = ({ movieId }) => {
       userRating: 0,
     };
 
-  const { average, userRating } = rating;
+  const { userRating } = rating;
   const [hover, setHover] = useState(0);
 
   useEffect(() => {
@@ -21,8 +21,6 @@ const StarRating = ({ movieId }) => {
 
   return (
     <div>
-      <p>⭐ {average}</p>
-
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
@@ -30,7 +28,7 @@ const StarRating = ({ movieId }) => {
             fontSize: "26px",
             cursor: "pointer",
             color:
-              star <= (hover || userRating || average)
+              star <= (hover || userRating)
                 ? "gold"
                 : "gray",
           }}

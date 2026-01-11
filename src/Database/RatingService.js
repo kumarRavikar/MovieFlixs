@@ -9,13 +9,13 @@ export const fetchRating =(movieId)=>async (dispatch)=>{
 let average = 0;
 let ratingCount = 0;
 let hasRated = false;
-let userRating = null;
+let userRating = 0;
 const movieRef = doc(db,'movies',movieId);
 const movieSnap = await getDoc(movieRef); // reads movieData from firebase
 if(movieSnap.exists()){
     const data = movieSnap.data();
       ratingCount = data.ratingCount || 0;
-      average = ratingCount === 0 ?  0 : (data.totalRating/ratingCount).toFixed(1);
+      average = ratingCount === 0 ?  0 : Number(data.totalRating/ratingCount);
 }
       if(user){
         const userRatingRef = doc(db,"movies",movieId,"ratings",user.uid);
@@ -26,13 +26,13 @@ if(movieSnap.exists()){
         }
 
       }
-      dispatch(setRatingData({movieId,average,ratingCount,hasRated,userRating}));
+      dispatch(setRatingData({movieId,average:average.toFixed(1),ratingCount,hasRated,userRating}));
       dispatch(setLoading(false));
 }
  // submiting rating to movie 
  export const submitRating = (movieId, value) => async (dispatch) => {
   const user = auth.currentUser;
-  if (!user) return alert("Please login");
+  if (!user) return alert("Please login to rate");
 
   const movieRef = doc(db, "movies", movieId);
   const userRatingRef = doc(db, "movies", movieId, "ratings", user.uid);
@@ -46,13 +46,12 @@ if(movieSnap.exists()){
 
   const userSnap = await getDoc(userRatingRef);
 
-  // 🔁 UPDATE CASE
+  // UPDATE CASE
   if (userSnap.exists()) {
     const oldValue = userSnap.data().value;
 
     await updateDoc(movieRef, {
-      totalRating: totalRating - oldValue + value,
-      ratingCount: ratingCount, // unchanged
+      totalRating: totalRating - oldValue + value
     });
 
     await updateDoc(userRatingRef, {
@@ -61,7 +60,7 @@ if(movieSnap.exists()){
     });
 
   } 
-  // ⭐ FIRST-TIME RATING
+  // FIRST-TIME RATING
   else {
     await updateDoc(movieRef, {
       totalRating: totalRating + value,
@@ -69,8 +68,8 @@ if(movieSnap.exists()){
     });
 
     await setDoc(userRatingRef, {
-      userId: user.uid,
       value,
+      userId: user.uid,
       createdAt: Date.now(),
     });
   }

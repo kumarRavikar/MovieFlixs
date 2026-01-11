@@ -1,40 +1,57 @@
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom'
-import { filterMovies } from '../redux/MovieSlice';
-import { movieAction } from '../redux/MovieSlice';
-import { Link } from 'react-router-dom';
-import styles from "./MovieDetails.module.css"
-import { useCallback } from 'react';
+import { filterMovies, movieAction } from "../redux/MovieSlice";
+import StarRating from "./StarRating";
+
+import styles from "./MovieDetails.module.css";
+
 export const MovieDetails = () => {
-    const navigate = useNavigate();
-    const {id} = useParams();
-    const movie = useSelector(filterMovies);
-    const movies = movie.find(m=> m.id === id);
-     const {title, gener, price, trailer,rating, stars,fav, cart} = movies;
-     const dispatch = useDispatch();
-    const decStarsHandler = useCallback(()=>{
-      dispatch(movieAction.decStars(id));
-    },[dispatch, id]);
-    const incStarsHandler = useCallback(()=>{
-      dispatch(movieAction.incStars(id));
-    },[dispatch,id]);
-    const toggleFevHandler = useCallback(()=>{
-      dispatch(movieAction.toggleFav(id));
-    },[dispatch,id]);
-    const toggleCartHandler = useCallback(()=>{
-      dispatch(movieAction.toggleCart(id));
-    },[dispatch, id]);
-        return(
-           <div className={styles.mainWrapper}>
-            
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Redux state
+  const movies = useSelector(filterMovies);
+  const selectedMovie = movies.find((movie) => movie.id === id);
+
+  //  Hooks MUST be declared before conditional return
+  const toggleFavHandler = useCallback(() => {
+    dispatch(movieAction.toggleFav(id));
+  }, [dispatch, id]);
+
+  const toggleCartHandler = useCallback(() => {
+    dispatch(movieAction.toggleCart(id));
+    navigate("/cartItems");
+  }, [dispatch, id, navigate]);
+
+  //  Guard after hooks
+  if (!selectedMovie) {
+    return (
+      <div className={styles.mainWrapper}>
+        <p style={{ color: "white" }}>Movie not found</p>
+      </div>
+    );
+  }
+
+  const { title, gener, price, trailer, fav, cart } = selectedMovie;
+
+  return (
+    <div className={styles.mainWrapper}>
       <div className={styles.cardBox}>
-         <Link to='/movie' style={{textDecoration:'none' , color:'white'}}>Go Back</Link>
+        <Link to="/movie" style={{ textDecoration: "none", color: "white" }}>
+          ← Go Back
+        </Link>
+
         <div className={styles.leftBox}>
-          {/* <img className={styles.posterImg} src={poster} alt="Poster" /> */}
-          <iframe className={styles.posterImg} src={trailer} title={`${title}`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" >
-          </iframe>
+          <iframe
+            className={styles.posterImg}
+            src={trailer}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         </div>
 
         <div className={styles.rightBox}>
@@ -43,53 +60,25 @@ export const MovieDetails = () => {
           <p className={styles.priceText}>₹ {price}</p>
 
           <div className={styles.footerBox}>
-
-            <span className={styles.ratingBox}>⭐ {rating}</span>
-
-            <div className={styles.starsBox}>
-              <img
-                className={styles.starBtn}
-                alt="decrease"
-                src="https://cdn-icons-png.flaticon.com/128/225/225148.png"
-                onClick={() => decStarsHandler(id)}
-              />
-
-              <img
-                className={styles.starIcon}
-                src="https://cdn-icons-png.flaticon.com/128/1040/1040230.png"
-                alt="star"
-              />
-
-              <img
-                className={styles.starBtn}
-                alt="increase"
-                src="https://cdn-icons-png.flaticon.com/128/225/225149.png"
-                onClick={() => incStarsHandler(id)}
-              />
-
-              <span className={styles.starValue}>{stars}</span>
-            </div>
+           
+            <StarRating movieId={id} />
 
             <button
               className={fav ? styles.unFavBtn : styles.favBtn}
-              onClick={() => toggleFevHandler(id)}
+              onClick={toggleFavHandler}
             >
               {fav ? "Remove Favourite" : "Add Favourite"}
             </button>
 
             <button
               className={cart ? styles.removeCartBtn : styles.cartBtn}
-              onClick={() => {toggleCartHandler(id);navigate("/cartItems")}}
-              
+              onClick={toggleCartHandler}
             >
               {cart ? "Remove From Cart" : "Add To Cart"}
             </button>
-
           </div>
         </div>
-       
       </div>
-      
     </div>
-        ) 
-}
+  );
+};

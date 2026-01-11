@@ -11,9 +11,9 @@ const ratingSlice = createSlice({
    initialState,
    reducers:{
      setRatingData:(state,action)=>{
-        const {movieId,average,ratingCount, hasRated} = action.payload;
+        const {movieId,average,ratingCount, hasRated,userRating} = action.payload;
         state.ratings[movieId]= {
-            average, ratingCount, hasRated
+            average, ratingCount, hasRated, userRating
         }
      },
      setLoading:(state,action)=>{

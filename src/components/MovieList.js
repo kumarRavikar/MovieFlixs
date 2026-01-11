@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Moviecard from "./MovieCard";
 import { fetchMovies, filterMovies } from "../redux/MovieSlice";
 import { useEffect } from "react";
+import { Ai } from "./Ai";
 
 
 function MovieList() {
@@ -21,6 +22,7 @@ function MovieList() {
           <Moviecard key={movie.id} movie={movie}/>
         
       ))}
+      <Ai/>
     </div>
   );
 }

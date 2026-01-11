@@ -37,7 +37,7 @@ const Moviecard = React.memo(({ movie }) => {
 
         
 
-          {/* ⭐ Clickable star rating */}
+          {/* Clickable star rating */}
           <StarRating movieId={id} />
 
           <div className="footer">
@@ -50,7 +50,7 @@ const Moviecard = React.memo(({ movie }) => {
 
             <button
               className={cart ? "remove-cart" : "cart"}
-              onClick={()=>dispatch(movieAction.cart(id))}
+              onClick={()=>dispatch(movieAction.toggleCart(id))}
             >
               {cart ? "Remove From Cart" : "Add To Cart"}
             </button>
