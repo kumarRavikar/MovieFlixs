@@ -26,7 +26,7 @@ const App = () => {
           {path:"/movie", element:(<ProtectedRoute><Navbar/> </ProtectedRoute>  ), children:[
             {index:true, element:(<ProtectedRoute><MovieList/></ProtectedRoute>)}
           ]},
-          {path:"/cartItems", element:(<ProtectedRoute><CartItems/></ProtectedRoute>   )},
+          {path:"/cartItems", element:(<ProtectedRoute><CartItems/></ProtectedRoute>)},
           {path:"/movie/:id",element:(<ProtectedRoute><MovieDetails/></ProtectedRoute>)}
      ])
      return <RouterProvider router={router}/>
